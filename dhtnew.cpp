@@ -189,11 +189,11 @@ int DHTNEW::_read()
   if (_type == 22) // DHT22, DHT33, DHT44, compatible
   {
     _humidity    = (_bits[0] * 256 + _bits[1]) * 0.1;
-    int16_t t    = (_bits[2] * 256 + _bits[3]);
+    int16_t t    = ((_bits[2] & 0x7F) * 256 + _bits[3]);
     if(_bits[2] == 0x80)
-        _temperature = 0;
+        _temperature = t * -0.1;
     else
-        _temperature = t * 0.1; 
+        _temperature = t * 0.1;
   }
   else // if (_type == 11)  // DHT11, DH12, compatible
   {
